@@ -4,6 +4,8 @@ var http = require('http');
 var path = require('path');
 var handlebars = require('express3-handlebars');
 var app = express();
+var dotenv = require('dotenv');
+dotenv.load();
 
 //route files to load
 var index = require('./routes/index');
