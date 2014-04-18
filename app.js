@@ -4,6 +4,7 @@ var http = require('http');
 var path = require('path');
 var handlebars = require('express3-handlebars');
 var graph = require('fbgraph'); //fb api
+var Twit = require('twit');
 var app = express();
 var dotenv = require('dotenv');
 dotenv.load();
@@ -14,13 +15,19 @@ var loggedin = require('./routes/loggedin');
 
 
 // this should really be in a config file!
-
 var conf = {
     client_id:      '231469240376504'
   , client_secret:  'da9ba9f03fcb8d3bf262e9e9a2a08cb1'
-  , scope:          'email, user_about_me, user_birthday, user_location, publish_stream'
+  , scope:          'email, user_about_me, user_birthday, user_location, publish_stream, user_about_me, user_hometown'
   , redirect_uri:   'http://localhost:3000/auth/facebook'
 };
+
+var T = new Twit({
+    consumer_key:         'Y0XdsIdJvZBeYP8kqrHsWZSSP'
+  , consumer_secret:      'FKLoiPyUKH3SsjIa9IwPp82tGn9pfNRuAqEmMVlDXtXdJuMadZ'
+  , access_token:         'Y0XdsIdJvZBeYP8kqrHsWZSSP'
+  , access_token_secret:  'FKLoiPyUKH3SsjIa9IwPp82tGn9pfNRuAqEmMVlDXtXdJuMadZ'
+})
 
 //database setup - uncomment to set up your database
 //var mongoose = require('mongoose');
@@ -58,9 +65,7 @@ app.get('/loggedin', loggedin.view);
 
 // Routes
 
-app.get('/', function(req, res){
-  res.render("index", { title: "click link to connect" });
-});
+app.get('/', index.view);
 
 app.get('/auth/facebook', function(req, res) {
 
